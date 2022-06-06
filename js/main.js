@@ -4,7 +4,7 @@ function getRandomPositiveInteger (a, b) {
   const upper = Math.max(Math.abs(a), Math.abs(b));
   const result = Math.random() * (upper - lower) + lower;
   return Math.round(result);
-  }
+}
 
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно
 function getRandomPositiveFloat (a, b, digits) {
@@ -12,4 +12,4 @@ function getRandomPositiveFloat (a, b, digits) {
   const upper = Math.max(Math.abs(a), Math.abs(b));
   const result = Math.random() * (upper - lower) + lower;
   return +result.toFixed(digits);
-  }
+}
