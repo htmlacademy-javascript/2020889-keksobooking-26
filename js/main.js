@@ -6,7 +6,6 @@ function getRandomPositiveInteger (a, b) {
 
     return Math.round(result);
   }
-console.log(getRandomPositiveInteger(1,100))
 
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно
 function getRandomPositiveFloat (a, b, digits) {
@@ -16,4 +15,3 @@ function getRandomPositiveFloat (a, b, digits) {
 
     return +result.toFixed(digits);
   }
-  console.log(getRandomPositiveFloat(1,100,6))
