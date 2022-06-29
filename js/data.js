@@ -9,11 +9,11 @@ const TITLES = [
 ];
 
 const TYPES = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
+  {palace : 'Дворец'},
+  {flat : 'Квартира'},
+  {bungalow : 'Бунгало'},
+  {house : 'Дом'},
+  {hotel : 'Отель'},
 ];
 
 const CHECKIN = [
@@ -45,7 +45,7 @@ const DESCRIPTIONS = [
 ];
 
 const PHOTOS = [
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg,',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
@@ -56,7 +56,7 @@ const MINIMUM_ROOM_NUMBER = 1;
 const MAXIMUM_ROOM_NUMBER = 10;
 const MINIMUM_GUESTS_NUMBER = 1;
 const MAXIMUM_GUESTS_NUMBER = 10;
-const SIMILAR_POSTS_COUNT = 10;
+const SIMILAR_POSTS_COUNT = 1;
 const MINIMUM_LAT = 35.65000;
 const MAXIMUM_LAT = 35.70000;
 const MINIMUM_LNG = 35.65000;
@@ -93,7 +93,7 @@ const createPost = () => {
       checkout: getRandomArrayElement(CHECKOUT),
       features: FEATURES.slice(0, getRandomPositiveInteger(0, FEATURES.length)),
       description: getRandomArrayElement(DESCRIPTIONS),
-      photos: getRandomArrayElement(PHOTOS),
+      photos: PHOTOS.slice(0, getRandomPositiveInteger(0, PHOTOS.length)),
     },
     location: {
       lat: getLocationLat,
