@@ -17,8 +17,8 @@ const getPhotos = (randomPhoto, postElement) => {
   });
 };
 
-const createFeatures = (randomFeature, popupFeatures) => {
-  const featuresContainer = document.querySelector('#card').content.querySelector('.popup__features');
+const createFeatures = (randomFeature, popupFeatures, postElement) => {
+  const featuresContainer = postElement.querySelector('.popup__features');
   const featuresList = featuresContainer.querySelectorAll('.popup__feature');
   featuresList.forEach((featureListElement) => {
     const isNecessary = randomFeature.some(
@@ -44,7 +44,7 @@ const createRandomPost = () => {
     postElement.querySelector('.popup__type').textContent = Object.values(post.offer.type);
     postElement.querySelector('.popup__text--time').textContent = `${post.offer.rooms} комнаты для ${post.offer.guests} гостей.`;
     postElement.querySelector('.popup__text--capacity').textContent = `Заезд после ${post.offer.checkin}, выезд до ${post.offer.checkout}`;
-    createFeatures(post.offer.features, popupFeatures);
+    createFeatures(post.offer.features, popupFeatures, postElement);
     postElement.querySelector('.popup__description').textContent = post.offer.description;
     getPhotos(post.offer.photos, postElement);
     postElement.querySelector('.popup__avatar').src = post.author.avatar;
