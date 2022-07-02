@@ -2,53 +2,54 @@ import {createPosts} from './data.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 const similarPostTemplate = document.querySelector('#card').content.querySelector('.popup');
+const postElement = similarPostTemplate.cloneNode(true);
 const similarPosts = createPosts();
+const onePost = similarPosts[0];
 
-const getPhotos = (randomPhoto, postElement) => {
+const getPhotos = (generatedPhotos) => {
   const photosContainer = postElement.querySelector('.popup__photos');
-  const photoList = postElement.querySelector('.popup__photo');
-  photoList.remove();
-  randomPhoto.forEach((photo) => {
-    const newPhotoElement = photoList.cloneNode(true);
-    for (let i = 0; i < randomPhoto.length; i++){
-      newPhotoElement.setAttribute('src', photo);
-      photosContainer.appendChild(newPhotoElement);
-    }
+  const photo = postElement.querySelector('.popup__photo');
+  photo.remove();
+  generatedPhotos.forEach((generatedPhoto) => {
+    const newPhotoElement = photo.cloneNode(true);
+    newPhotoElement.setAttribute('src', generatedPhoto);
+    photosContainer.appendChild(newPhotoElement);
   });
 };
 
-const createFeatures = (randomFeature, popupFeatures, postElement) => {
+const createFeatures = (generatedFeatures, allAvailableFeatures) => {
   const featuresContainer = postElement.querySelector('.popup__features');
-  const featuresList = featuresContainer.querySelectorAll('.popup__feature');
-  featuresList.forEach((featureListElement) => {
-    const isNecessary = randomFeature.some(
-      (feature) => featureListElement.classList.contains(`popup__feature--${feature}`),
-    );
-    if (!isNecessary) {
-      featureListElement.remove();
-    }
-  });
-  popupFeatures.innerHTML = '';
-  for (let i=0; i<randomFeature.length; i++) {
-    popupFeatures.append(featuresList[i]);
+  const features = featuresContainer.querySelectorAll('.popup__feature');
+  generatedFeatures.forEach((generatedFeature) => generatedFeature);
+  allAvailableFeatures.innerHTML = '';
+  for (let i = 0; i < generatedFeatures.length; i++) {
+    allAvailableFeatures.append(features[i]);
   }
 };
 
-const createRandomPost = () => {
-  similarPosts.forEach((post) => {
-    const postElement = similarPostTemplate.cloneNode(true);
-    const popupFeatures = postElement.querySelector('.popup__features');
-    postElement.querySelector('.popup__title').textContent = post.offer.title;
-    postElement.querySelector('.popup__text--address').textContent = `${post.offer.address.lat}, ${post.offer.address.lng}`;
-    postElement.querySelector('.popup__text--price').textContent = `${post.offer.price} ₽/ночь`;
-    postElement.querySelector('.popup__type').textContent = Object.values(post.offer.type);
-    postElement.querySelector('.popup__text--time').textContent = `${post.offer.rooms} комнаты для ${post.offer.guests} гостей.`;
-    postElement.querySelector('.popup__text--capacity').textContent = `Заезд после ${post.offer.checkin}, выезд до ${post.offer.checkout}`;
-    createFeatures(post.offer.features, popupFeatures, postElement);
-    postElement.querySelector('.popup__description').textContent = post.offer.description;
-    getPhotos(post.offer.photos, postElement);
-    postElement.querySelector('.popup__avatar').src = post.author.avatar;
-    mapCanvas.append(postElement);
-  });
+const setTextContent = (className, generatedElement, noData = '') => {
+  const oneElement = postElement.querySelector(className);
+  for (let i = 0; i < generatedElement.length; i++) {
+    if (!generatedElement[i]) {
+      oneElement.classList.add('hidden');
+      return;
+    }
+    oneElement.textContent = noData ? noData : generatedElement;
+  }
 };
-createRandomPost();
+
+const createPost = (post) => {
+  const allAvailableFeatures = postElement.querySelector('.popup__features');
+  setTextContent('.popup__title', post.offer.title);
+  setTextContent('.popup__text--address', `${post.offer.address.lat}, ${post.offer.address.lng}`);
+  setTextContent('.popup__text--price', `${post.offer.price} ₽/ночь`);
+  setTextContent('.popup__type', post.offer.type);
+  setTextContent('.popup__text--time', `${post.offer.rooms} комнаты для ${post.offer.guests} гостей.`);
+  setTextContent('.popup__text--capacity', `Заезд после ${post.offer.checkin}, выезд до ${post.offer.checkout}`);
+  createFeatures(post.offer.features, allAvailableFeatures, postElement);
+  setTextContent('.popup__description', post.offer.description);
+  getPhotos(post.offer.photos, postElement);
+  postElement.querySelector('.popup__avatar').src = post.author.avatar;
+  mapCanvas.append(postElement);
+};
+export {createPost, onePost};
