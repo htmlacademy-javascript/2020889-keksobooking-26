@@ -8,13 +8,13 @@ const TITLES = [
   'Новостройка на набережной',
 ];
 
-const TYPES = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
+const TYPES = {
+  palace : 'Дворец',
+  flat : 'Квартира',
+  bungalow : 'Бунгало',
+  house : 'Дом',
+  hotel : 'Отель',
+};
 
 const CHECKIN = [
   '12:00',
@@ -45,7 +45,7 @@ const DESCRIPTIONS = [
 ];
 
 const PHOTOS = [
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg,',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
@@ -68,13 +68,13 @@ const getRandomPictureLink = () => {
   return result < 10 ? `0${result}` : result;
 };
 
-
 const getRandomArrayElement = (elements) =>
   elements[getRandomPositiveInteger(0, elements.length - 1)];
 
 const createPost = () => {
   const getLocationLat = getRandomPositiveFloat(MINIMUM_LAT, MAXIMUM_LAT, LOCATION_NUMBER_DIGITS);
   const getLocationLng = getRandomPositiveFloat(MINIMUM_LNG, MAXIMUM_LNG, LOCATION_NUMBER_DIGITS);
+  const typeKeys = Object.keys(TYPES);
   return {
     author: {
       avatar: `img/avatars/user${getRandomPictureLink()}.png`
@@ -86,14 +86,14 @@ const createPost = () => {
         lng: getLocationLng,
       },
       price: getRandomPositiveInteger(MINIMUM_PRICE, MAXIMUM_PRICE),
-      type: getRandomArrayElement(TYPES),
+      type: TYPES[getRandomArrayElement(typeKeys)],
       rooms: getRandomPositiveInteger(MINIMUM_ROOM_NUMBER, MAXIMUM_ROOM_NUMBER),
       guests: getRandomPositiveInteger(MINIMUM_GUESTS_NUMBER, MAXIMUM_GUESTS_NUMBER),
       checkin: getRandomArrayElement(CHECKIN),
       checkout: getRandomArrayElement(CHECKOUT),
       features: FEATURES.slice(0, getRandomPositiveInteger(0, FEATURES.length)),
       description: getRandomArrayElement(DESCRIPTIONS),
-      photos: getRandomArrayElement(PHOTOS),
+      photos: PHOTOS.slice(0, getRandomPositiveInteger(0, PHOTOS.length)),
     },
     location: {
       lat: getLocationLat,
@@ -101,6 +101,5 @@ const createPost = () => {
     },
   };
 };
-
 const createPosts =() => Array.from({length: SIMILAR_POSTS_COUNT}, createPost);
 export {createPosts};

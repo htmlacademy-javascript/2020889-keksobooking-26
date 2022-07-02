@@ -1,3 +1,4 @@
 import './util.js';
-import {createPosts} from './data.js';
-createPosts();
+import './generating-similar-elements.js';
+import {createPost, onePost} from './generating-similar-elements.js';
+createPost(onePost);
