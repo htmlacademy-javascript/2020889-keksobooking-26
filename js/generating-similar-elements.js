@@ -6,24 +6,23 @@ const postElement = similarPostTemplate.cloneNode(true);
 const similarPosts = createPosts();
 const onePost = similarPosts[0];
 
-const getPhotos = (generatedPhotos) => {
+const getPhotos = (photos) => {
   const photosContainer = postElement.querySelector('.popup__photos');
   const photo = postElement.querySelector('.popup__photo');
   photo.remove();
-  generatedPhotos.forEach((generatedPhoto) => {
+  photos.forEach((generatedPhoto) => {
     const newPhotoElement = photo.cloneNode(true);
     newPhotoElement.setAttribute('src', generatedPhoto);
     photosContainer.appendChild(newPhotoElement);
   });
 };
 
-const createFeatures = (generatedFeatures, allAvailableFeatures) => {
+const createFeatures = (generatedFeatures) => {
   const featuresContainer = postElement.querySelector('.popup__features');
   const features = featuresContainer.querySelectorAll('.popup__feature');
-  generatedFeatures.forEach((generatedFeature) => generatedFeature);
-  allAvailableFeatures.innerHTML = '';
+  featuresContainer.innerHTML = '';
   for (let i = 0; i < generatedFeatures.length; i++) {
-    allAvailableFeatures.append(features[i]);
+    featuresContainer.append(features[i]);
   }
 };
 
