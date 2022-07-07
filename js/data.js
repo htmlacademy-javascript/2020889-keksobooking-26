@@ -67,7 +67,7 @@ const getRandomPictureLink = () => {
   const result = getRandomPositiveInteger(1, 10);
   return result < 10 ? `0${result}` : result;
 };
-
+ 
 const getRandomArrayElement = (elements) =>
   elements[getRandomPositiveInteger(0, elements.length - 1)];
 
