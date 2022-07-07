@@ -69,6 +69,42 @@ function changeRoomNumber () {
 
 roomNumberField.addEventListener('change', changeRoomNumber);
 
+//3.3. Поле «Тип жилья» влияет на минимальное значение поля «Цена за ночь»:
+const typeField = orderForm.querySelector('#type');
+
+const pricesOnType = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
+};
+
+const validateAddtionalPrice = (value) => pricesOnType[typeField.value] <= value;
+
+const getAdditionalPriceError = () => `Минимальная цена ${pricesOnType[typeField.value]}`;
+
+pristine.addValidator(
+  priceField,
+  validateAddtionalPrice,
+  getAdditionalPriceError,
+);
+
+//3.5. Поля «Время заезда» и «Время выезда» синхронизированы:
+const checkInField = orderForm.querySelector('#timein');
+const checkOutField = orderForm.querySelector('#timeout');
+
+const syncronizeCheckInAndOut = () => {
+  checkInField.addEventListener('click', (evt) => {
+    checkOutField.value = evt.target.value;
+  });
+
+  checkOutField.addEventListener('click', (evt) => {
+    checkInField.value = evt.target.value;
+  });
+};
+syncronizeCheckInAndOut();
+
 orderForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
