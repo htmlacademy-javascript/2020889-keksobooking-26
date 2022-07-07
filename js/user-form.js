@@ -1,5 +1,9 @@
 const orderForm = document.querySelector('.ad-form');
 
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+const MAX_PRICE = 100000;
+
 const pristine = new Pristine(orderForm, {
   classTo: 'ad-form__element', // Элемент, на который будут добавляться классы
   errorClass: 'form__error', // Класс, обозначающий невалидное поле
@@ -11,8 +15,7 @@ const pristine = new Pristine(orderForm, {
 
 //3.1. Заголовок объявления:
 const titleField = orderForm.querySelector('#title');
-
-const validateTitleLength = (value) => value.length >= 30 && value.length <= 100;
+const validateTitleLength = (value) => value.length >= MIN_TITLE_LENGTH && value.length <= MAX_TITLE_LENGTH;
 
 pristine.addValidator(
   titleField,
@@ -22,7 +25,7 @@ pristine.addValidator(
 
 //3.2. Цена за ночь:
 const priceField = orderForm.querySelector('#price');
-const validatePriceValue = (value) => value <= 100000;
+const validatePriceValue = (value) => value <= MAX_PRICE;
 
 pristine.addValidator(
   priceField,
@@ -65,6 +68,42 @@ function changeRoomNumber () {
 }
 
 roomNumberField.addEventListener('change', changeRoomNumber);
+
+//3.3. Поле «Тип жилья» влияет на минимальное значение поля «Цена за ночь»:
+const typeField = orderForm.querySelector('#type');
+
+const pricesOnType = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
+};
+
+const validateAddtionalPrice = (value) => pricesOnType[typeField.value] <= value;
+
+const getAdditionalPriceError = () => `Минимальная цена ${pricesOnType[typeField.value]}`;
+
+pristine.addValidator(
+  priceField,
+  validateAddtionalPrice,
+  getAdditionalPriceError,
+);
+
+//3.5. Поля «Время заезда» и «Время выезда» синхронизированы:
+const checkInField = orderForm.querySelector('#timein');
+const checkOutField = orderForm.querySelector('#timeout');
+
+const syncronizeCheckInAndOut = () => {
+  checkInField.addEventListener('click', (evt) => {
+    checkOutField.value = evt.target.value;
+  });
+
+  checkOutField.addEventListener('click', (evt) => {
+    checkInField.value = evt.target.value;
+  });
+};
+syncronizeCheckInAndOut();
 
 orderForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
