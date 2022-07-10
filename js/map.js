@@ -3,11 +3,13 @@ import {createPost, similarPosts} from './generating-similar-elements.js';
 
 const resetButton = document.querySelector('.ad-form__reset');
 const addressField = document.querySelector('#address');
+const LAT_TOKYO = 35.68999;
+const LNG_TOKYO = 139.69201;
 
 const map = L.map('map-canvas').on('load', setActiveStatus)
   .setView({
-    lat: 35.65283,
-    lng: 139.83947
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO
   }, 10);
 
 L.tileLayer(
@@ -25,8 +27,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.65283,
-    lng: 139.83947
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO
   },
   {
     draggable: true,
@@ -42,13 +44,13 @@ mainPinMarker.on('moveend', (evt) => {
 
 resetButton.addEventListener('click', () => {
   mainPinMarker.setLatLng({
-    lat: 35.65283,
-    lng: 139.83947
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO
   });
 
   map.setView({
-    lat: 35.65283,
-    lng: 139.83947
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO
   }, 10);
 });
 
@@ -58,15 +60,13 @@ const simplePinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-similarPosts.forEach((post) => {
+const markerGroup = L.layerGroup().addTo(map);
+const createMarker = (post) => {
   const {
     location: {
       lat,
       lng
     },
-    // offer: {
-    //   title
-    // }
   } = post;
   const marker = L.marker({
     lat,
@@ -77,6 +77,10 @@ similarPosts.forEach((post) => {
   },
   );
   marker
-    .addTo(map)
+    .addTo(markerGroup)
     .bindPopup(createPost(post));
+};
+
+similarPosts.forEach((post) => {
+  createMarker(post);
 });

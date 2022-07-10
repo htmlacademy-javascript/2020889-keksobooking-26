@@ -1,6 +1,5 @@
 import {createPosts} from './data.js';
 
-//const mapCanvas = document.querySelector('#map-canvas');
 const similarPostTemplate = document.querySelector('#card').content.querySelector('.popup');
 const postElement = similarPostTemplate.cloneNode(true);
 const similarPosts = createPosts();
@@ -48,7 +47,6 @@ const createPost = (post) => {
   setTextContent('.popup__description', post.offer.description);
   getPhotos(post.offer.photos, postElement);
   postElement.querySelector('.popup__avatar').src = post.author.avatar;
-  //mapCanvas.append(postElement);
   return postElement;
 };
 export {createPost, similarPosts};
