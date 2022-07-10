@@ -288,6 +288,10 @@ fieldset {
           align-items: center;
 }
 
+.form__error {
+  color: red;
+}
+
 .ad-form-header__preview {
   display: -webkit-box;
   display: -ms-flexbox;

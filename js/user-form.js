@@ -17,6 +17,12 @@ const pristine = new Pristine(orderForm, {
 const titleField = orderForm.querySelector('#title');
 const validateTitleLength = (value) => value.length >= MIN_TITLE_LENGTH && value.length <= MAX_TITLE_LENGTH;
 
+const adFormLabel = orderForm.querySelector('.ad-form__label');
+
+titleField.oninput = function () {
+  adFormLabel.textContent = `Заголовок объявления: использовано ${titleField.value.length}/100 символов`;
+};
+
 pristine.addValidator(
   titleField,
   validateTitleLength,

@@ -31,5 +31,5 @@ const setActiveStatus = () => {
     mapFilter.removeAttribute('disabled', 'true');
   });
 };
-setActiveStatus();
+
 export {setInactiveStatus, setActiveStatus};
