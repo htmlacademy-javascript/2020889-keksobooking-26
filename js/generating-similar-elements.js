@@ -49,4 +49,5 @@ const createPost = (post) => {
   postElement.querySelector('.popup__avatar').src = post.author.avatar;
   return postElement;
 };
+console.log(createPost(similarPosts[0]));
 export {createPost, similarPosts};

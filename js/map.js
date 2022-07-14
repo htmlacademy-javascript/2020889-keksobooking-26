@@ -61,7 +61,7 @@ const simplePinIcon = L.icon({
 });
 
 const markerGroup = L.layerGroup().addTo(map);
-const createMarker = (post) => {
+similarPosts.forEach((post) => {
   const {
     location: {
       lat,
@@ -79,8 +79,4 @@ const createMarker = (post) => {
   marker
     .addTo(markerGroup)
     .bindPopup(createPost(post));
-};
-
-similarPosts.forEach((post) => {
-  createMarker(post);
 });
