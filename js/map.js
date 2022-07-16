@@ -5,31 +5,41 @@ const resetButton = document.querySelector('.ad-form__reset');
 const addressField = document.querySelector('#address');
 const LAT_TOKYO = 35.68999;
 const LNG_TOKYO = 139.69201;
+const LAT_LNG_TOKYO = {
+  lat: LAT_TOKYO,
+  lng: LNG_TOKYO
+};
+const mapScope = 10;
+const mapPic = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const mapLink = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const mainPinPic = './img/main-pin.svg';
+const mainPinSize = [52, 52];
+const mainPinAnchor = [26, 52];
+const simplePinPic = './img/pin.svg';
+const simplePinSize = [40, 40];
+const simplePinAnchor = [20, 40];
 
 const map = L.map('map-canvas').on('load', setActiveStatus)
-  .setView({
-    lat: LAT_TOKYO,
-    lng: LNG_TOKYO
-  }, 10);
+  .setView(
+    LAT_LNG_TOKYO,
+    mapScope
+  );
 
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  mapPic,
   {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: mapLink,
   },
 ).addTo(map);
 
 const mainPinIcon = L.icon({
-  iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconUrl: mainPinPic,
+  iconSize: mainPinSize,
+  iconAnchor: mainPinAnchor,
 });
 
 const mainPinMarker = L.marker(
-  {
-    lat: LAT_TOKYO,
-    lng: LNG_TOKYO
-  },
+  LAT_LNG_TOKYO,
   {
     draggable: true,
     icon: mainPinIcon,
@@ -51,13 +61,13 @@ resetButton.addEventListener('click', () => {
   map.setView({
     lat: LAT_TOKYO,
     lng: LNG_TOKYO
-  }, 10);
+  }, mapScope);
 });
 
 const simplePinIcon = L.icon({
-  iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconUrl: simplePinPic,
+  iconSize: simplePinSize,
+  iconAnchor: simplePinAnchor,
 });
 
 const markerGroup = L.layerGroup().addTo(map);
@@ -76,6 +86,7 @@ similarPosts.forEach((post) => {
     icon: simplePinIcon,
   },
   );
+
   marker
     .addTo(markerGroup)
     .bindPopup(createPost(post));
