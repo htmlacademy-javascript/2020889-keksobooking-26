@@ -7,12 +7,12 @@ const similarPosts = createPosts();
 const getPhotos = (photos) => {
   const photosContainer = postElement.querySelector('.popup__photos');
   const photo = postElement.querySelector('.popup__photo');
-  photo.remove();
   photos.forEach((generatedPhoto) => {
     const newPhotoElement = photo.cloneNode(true);
     newPhotoElement.setAttribute('src', generatedPhoto);
     photosContainer.appendChild(newPhotoElement);
   });
+  photo.classList.add('hidden');
 };
 
 const createFeatures = (generatedFeatures) => {
@@ -45,9 +45,8 @@ const createPost = (post) => {
   setTextContent('.popup__text--capacity', `Заезд после ${post.offer.checkin}, выезд до ${post.offer.checkout}`);
   createFeatures(post.offer.features, allAvailableFeatures, postElement);
   setTextContent('.popup__description', post.offer.description);
-  getPhotos(post.offer.photos, postElement);
+  getPhotos(post.offer.photos);
   postElement.querySelector('.popup__avatar').src = post.author.avatar;
   return postElement;
 };
-console.log(createPost(similarPosts[0]));
 export {createPost, similarPosts};
