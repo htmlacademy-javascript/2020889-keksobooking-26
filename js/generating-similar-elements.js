@@ -15,13 +15,15 @@ const getPhotos = (photos) => {
   photo.classList.add('hidden');
 };
 
-const createFeatures = (generatedFeatures) => {
-  const featuresContainer = postElement.querySelector('.popup__features');
-  const features = featuresContainer.querySelectorAll('.popup__feature');
-  featuresContainer.innerHTML = '';
-  for (let i = 0; i < generatedFeatures.length; i++) {
-    featuresContainer.append(features[i]);
-  }
+const createFeatures = (features) => {
+  const featureContainer = postElement.querySelector('.popup__features');
+  featureContainer.innerHTML = '';
+  features.forEach((feature) => {
+    const li = document.createElement('li');
+    li.classList.add('popup__feature');
+    li.classList.add(`popup__feature--${feature}`);
+    featureContainer.appendChild(li);
+  });
 };
 
 const setTextContent = (className, generatedElement, noData = '') => {
@@ -36,14 +38,13 @@ const setTextContent = (className, generatedElement, noData = '') => {
 };
 
 const createPost = (post) => {
-  const allAvailableFeatures = postElement.querySelector('.popup__features');
   setTextContent('.popup__title', post.offer.title);
   setTextContent('.popup__text--address', `${post.offer.address.lat}, ${post.offer.address.lng}`);
   setTextContent('.popup__text--price', `${post.offer.price} ₽/ночь`);
   setTextContent('.popup__type', post.offer.type);
   setTextContent('.popup__text--time', `${post.offer.rooms} комнаты для ${post.offer.guests} гостей.`);
   setTextContent('.popup__text--capacity', `Заезд после ${post.offer.checkin}, выезд до ${post.offer.checkout}`);
-  createFeatures(post.offer.features, allAvailableFeatures, postElement);
+  createFeatures(post.offer.features);
   setTextContent('.popup__description', post.offer.description);
   getPhotos(post.offer.photos);
   postElement.querySelector('.popup__avatar').src = post.author.avatar;
