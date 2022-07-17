@@ -17,6 +17,12 @@ const pristine = new Pristine(orderForm, {
 const titleField = orderForm.querySelector('#title');
 const validateTitleLength = (value) => value.length >= MIN_TITLE_LENGTH && value.length <= MAX_TITLE_LENGTH;
 
+const adFormLabel = orderForm.querySelector('.ad-form__label');
+
+titleField.oninput = function () {
+  adFormLabel.textContent = `Заголовок объявления: использовано ${titleField.value.length}/100 символов`;
+};
+
 pristine.addValidator(
   titleField,
   validateTitleLength,
@@ -104,6 +110,51 @@ const syncronizeCheckInAndOut = () => {
   });
 };
 syncronizeCheckInAndOut();
+
+//Пользователь может указать цену перемещением ползунка слайдера. Слайдер реализуется сторонней библиотекой noUiSlider.
+const sliderElement = document.querySelector('.ad-form__slider');
+const MIN_PRICE = 0;
+const START_SLIDER = 1000;
+const INITIAL_VALUE = 1000;
+
+typeField.addEventListener('change', () => {
+  priceField.placeholder = pricesOnType[typeField.value];
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: pricesOnType[typeField.value],
+      max: MAX_PRICE
+    },
+    start: START_SLIDER,
+  });
+  pristine.validate(priceField);
+});
+
+priceField.value = INITIAL_VALUE;
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: MIN_PRICE,
+    max: MAX_PRICE,
+  },
+  start: START_SLIDER,
+  step: 1,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  priceField.value = sliderElement.noUiSlider.get();
+});
 
 orderForm.addEventListener('submit', (evt) => {
   evt.preventDefault();

@@ -2,10 +2,17 @@ import {getRandomPositiveInteger, getRandomPositiveFloat} from './util.js';
 
 const TITLES = [
   'Шикарная квартира',
-  'Уютный номер в центре Москвы',
-  'Прекрасный вид на Ниву',
+  'Уютный номер в центре Токио',
+  'Прекрасный вид на море',
   'Современная квартира с парковкой',
   'Новостройка на набережной',
+  'Загородный дом с бассейном и бильярдом',
+  'Гостевой дом 50м кв с сауной',
+  'Уютный двухэтажный дом на 10 Боба',
+  'Сервисные апартаменты с террасой',
+  'Видовые резиденции у Чаоча',
+  'Высотка на Манзо',
+  'Угловой апартамент в Башне Пао',
 ];
 
 const TYPES = {
@@ -57,10 +64,10 @@ const MAXIMUM_ROOM_NUMBER = 10;
 const MINIMUM_GUESTS_NUMBER = 1;
 const MAXIMUM_GUESTS_NUMBER = 10;
 const SIMILAR_POSTS_COUNT = 10;
-const MINIMUM_LAT = 35.65000;
-const MAXIMUM_LAT = 35.70000;
-const MINIMUM_LNG = 35.65000;
-const MAXIMUM_LNG = 35.70000;
+const MINIMUM_LAT = 32.65000;
+const MAXIMUM_LAT = 37.70000;
+const MINIMUM_LNG = 134.65000;
+const MAXIMUM_LNG = 140.70000;
 const LOCATION_NUMBER_DIGITS = 5;
 
 const getRandomPictureLink = () => {
