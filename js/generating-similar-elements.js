@@ -1,8 +1,5 @@
-import {createPosts} from './data.js';
-
 const similarPostTemplate = document.querySelector('#card').content.querySelector('.popup');
 const postElement = similarPostTemplate.cloneNode(true);
-const similarPosts = createPosts();
 
 const getPhotos = (photos) => {
   const photosContainer = postElement.querySelector('.popup__photos');
@@ -50,4 +47,4 @@ const createPost = (post) => {
   postElement.querySelector('.popup__avatar').src = post.author.avatar;
   return postElement;
 };
-export {createPost, similarPosts};
+export {createPost};

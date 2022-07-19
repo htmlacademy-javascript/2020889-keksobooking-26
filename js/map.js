@@ -1,14 +1,9 @@
 import {setActiveStatus} from './dealing-with-form.js';
-import {createPost, similarPosts} from './generating-similar-elements.js';
+import {createPost} from './generating-similar-elements.js';
 
-const resetButton = document.querySelector('.ad-form__reset');
 const addressField = document.querySelector('#address');
 const LAT_TOKYO = 35.68999;
 const LNG_TOKYO = 139.69201;
-const LAT_LNG_TOKYO = {
-  lat: LAT_TOKYO,
-  lng: LNG_TOKYO
-};
 const mapScope = 10;
 const mapPic = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const mapLink = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -18,20 +13,13 @@ const mainPinAnchor = [26, 52];
 const simplePinPic = './img/pin.svg';
 const simplePinSize = [40, 40];
 const simplePinAnchor = [20, 40];
+const LAT_LNG_TOKYO = {
+  lat: LAT_TOKYO,
+  lng: LNG_TOKYO
+};
+const map = L.map('map-canvas');
 
-const map = L.map('map-canvas').on('load', setActiveStatus)
-  .setView(
-    LAT_LNG_TOKYO,
-    mapScope
-  );
-
-L.tileLayer(
-  mapPic,
-  {
-    attribution: mapLink,
-  },
-).addTo(map);
-
+//Создаем основной маркер
 const mainPinIcon = L.icon({
   iconUrl: mainPinPic,
   iconSize: mainPinSize,
@@ -46,13 +34,17 @@ const mainPinMarker = L.marker(
   },
 );
 
-mainPinMarker.addTo(map);
+const addMainPinMarker = () => mainPinMarker.addTo(map);
 
-mainPinMarker.on('moveend', (evt) => {
-  addressField.value = evt.target.getLatLng();
-});
+const checkMainPin = () => {
+  mainPinMarker.on('moveend', (evt) => {
+    addressField.value = evt.target.getLatLng();
+  });
+};
 
-resetButton.addEventListener('click', () => {
+// Определяем фокус карты
+const resetMap = () => {
+  addressField.value = `${LAT_TOKYO}, ${LNG_TOKYO}`;
   mainPinMarker.setLatLng({
     lat: LAT_TOKYO,
     lng: LNG_TOKYO
@@ -62,8 +54,9 @@ resetButton.addEventListener('click', () => {
     lat: LAT_TOKYO,
     lng: LNG_TOKYO
   }, mapScope);
-});
+};
 
+//Создаем второстепенные маркеры
 const simplePinIcon = L.icon({
   iconUrl: simplePinPic,
   iconSize: simplePinSize,
@@ -71,23 +64,44 @@ const simplePinIcon = L.icon({
 });
 
 const markerGroup = L.layerGroup().addTo(map);
-similarPosts.forEach((post) => {
-  const {
-    location: {
-      lat,
-      lng
-    },
-  } = post;
-  const marker = L.marker({
-    lat,
-    lng,
-  },
-  {
-    icon: simplePinIcon,
-  },
-  );
 
-  marker
-    .addTo(markerGroup)
-    .bindPopup(createPost(post));
-});
+const renderMarker = (post) => {
+  const pinMarker = L.marker(
+    {
+      lat: post.location.lat,
+      lng: post.location.lng,
+    },
+    {
+      icon: simplePinIcon,
+    },
+  );
+  pinMarker.addTo(markerGroup).bindPopup(createPost(post));
+};
+const renderMarkers = (array) => {
+  array.slice(0, 10).forEach((post) => {
+    renderMarker(post);
+  });
+};
+
+//Устанавливаем карту
+const initMap = (cb) => {
+  addressField.value = `${LAT_TOKYO}, ${LNG_TOKYO}`;
+  map.on('load', () => {
+    setActiveStatus();
+    addMainPinMarker();
+    checkMainPin();
+    cb();
+  })
+    .setView(
+      LAT_LNG_TOKYO,
+      mapScope
+    );};
+
+L.tileLayer(
+  mapPic,
+  {
+    attribution: mapLink,
+  },
+).addTo(map);
+
+export {renderMarkers, resetMap, initMap};
