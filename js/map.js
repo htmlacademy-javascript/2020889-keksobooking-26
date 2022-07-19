@@ -34,13 +34,27 @@ const mainPinMarker = L.marker(
   },
 );
 
-const addMainPinMarker = () => mainPinMarker.addTo(map);
+//Устанавливаем карту и добавляем маркер
+addressField.value = `${LAT_TOKYO}, ${LNG_TOKYO}`;
+map.on('load', () => {
+  setActiveStatus();
+})
+  .setView(
+    LAT_LNG_TOKYO,
+    mapScope
+  );
 
-const checkMainPin = () => {
-  mainPinMarker.on('moveend', (evt) => {
-    addressField.value = evt.target.getLatLng();
-  });
-};
+L.tileLayer(
+  mapPic,
+  {
+    attribution: mapLink,
+  },
+).addTo(map);
+mainPinMarker.on('moveend', (evt) => {
+  addressField.value = evt.target.getLatLng();
+});
+mainPinMarker.addTo(map);
+
 
 // Определяем фокус карты
 const resetMap = () => {
@@ -83,25 +97,4 @@ const renderMarkers = (array) => {
   });
 };
 
-//Устанавливаем карту
-const initMap = (cb) => {
-  addressField.value = `${LAT_TOKYO}, ${LNG_TOKYO}`;
-  map.on('load', () => {
-    setActiveStatus();
-    addMainPinMarker();
-    checkMainPin();
-    cb();
-  })
-    .setView(
-      LAT_LNG_TOKYO,
-      mapScope
-    );};
-
-L.tileLayer(
-  mapPic,
-  {
-    attribution: mapLink,
-  },
-).addTo(map);
-
-export {renderMarkers, resetMap, initMap};
+export {renderMarkers, resetMap};

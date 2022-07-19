@@ -20,9 +20,6 @@ const checkOutField = orderForm.querySelector('#timeout');
 const sliderElement = document.querySelector('.ad-form__slider');
 const submitButton = orderForm.querySelector('.ad-form__submit');
 const resetFormButton = orderForm.querySelector('.ad-form__reset');
-const formFilter = document.querySelector('.map__filters');
-const formInteractiveElements = orderForm.querySelectorAll('fieldset');
-const formFilterInteractiveElements = formFilter.querySelectorAll(['select', 'fieldset']);
 
 const pristine = new Pristine(orderForm, {
   classTo: 'ad-form__element', // Элемент, на который будут добавляться классы
@@ -159,32 +156,6 @@ sliderElement.noUiSlider.on('update', () => {
   priceField.value = sliderElement.noUiSlider.get();
 });
 
-
-//dddd
-
-const toggleFormFromEnabled = (value) => {
-  orderForm.classList.toggle('ad-form--disabled', value);
-  formFilter.classList.toggle('ad-form--disabled', value);
-
-  formInteractiveElements.forEach((element) => {
-    element.disabled = value;
-  });
-
-  formFilterInteractiveElements.forEach((element) => {
-    element.disabled = value;
-  });
-
-  if (value) {
-    priceField.placeholder = pricesOnType[typeField.value];
-    priceField.min = pricesOnType[typeField.value];
-
-    sliderElement.noUiSlider.updateOptions({
-      start: pricesOnType[typeField.value],
-      padding: [pricesOnType[typeField.value], 0],
-    });
-  }
-};
-
 //Кнопка отправки формы
 const blockSubmitButton = () => {
   submitButton.disabled = true;
@@ -220,8 +191,8 @@ resetFormButton.addEventListener('click', (evt) => {
   resetMap();
   pristine.reset();
   sliderElement.noUiSlider.updateOptions({
-    start: pricesOnType[typeField.value],
-    padding: [pricesOnType[typeField.value], 0],
+    start: START_SLIDER,
+    padding: MIN_PRICE,
   });
 });
 
@@ -230,4 +201,4 @@ orderForm.addEventListener('submit', (evt) => {
   pristine.validate();
 });
 
-export {toggleFormFromEnabled, allowSubmitForm, resetForm, unblockSubmitButton, blockSubmitButton};
+export {allowSubmitForm, resetForm, unblockSubmitButton, blockSubmitButton};
