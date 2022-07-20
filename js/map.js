@@ -1,10 +1,10 @@
 import {setActiveStatus} from './dealing-with-form.js';
-import {createPost} from './generating-similar-elements.js';
+import {createProposition} from './generating-similar-elements.js';
 
 const addressField = document.querySelector('#address');
 const LAT_TOKYO = 35.68999;
 const LNG_TOKYO = 139.69201;
-const mapScope = 10;
+const mapScope = 12;
 const mapPic = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const mapLink = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const mainPinPic = './img/main-pin.svg';
@@ -79,7 +79,7 @@ const simplePinIcon = L.icon({
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const renderMarker = (post) => {
+const renderPin = (post) => {
   const pinMarker = L.marker(
     {
       lat: post.location.lat,
@@ -89,12 +89,13 @@ const renderMarker = (post) => {
       icon: simplePinIcon,
     },
   );
-  pinMarker.addTo(markerGroup).bindPopup(createPost(post));
+  pinMarker.addTo(markerGroup).bindPopup(createProposition(post));
 };
-const renderMarkers = (array) => {
+
+const renderPins = (array) => {
   array.slice(0, 10).forEach((post) => {
-    renderMarker(post);
+    renderPin(post);
   });
 };
 
-export {renderMarkers, resetMap};
+export {renderPins, resetMap};

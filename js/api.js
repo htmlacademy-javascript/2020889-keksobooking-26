@@ -1,4 +1,4 @@
-import {showSuccessMessagePopup, showErrorMessagePopup} from './form-popups.js';
+import {showSuccessMessage, showErrorMessage} from './form-popups.js';
 import {resetForm, unblockSubmitButton, blockSubmitButton} from './user-form.js';
 
 const getData = (onSuccess) => {
@@ -8,7 +8,7 @@ const getData = (onSuccess) => {
       onSuccess(objects);
     })
     .catch(() => {
-      showErrorMessagePopup('Не удалось загрузить объекты, попробуйте перезагрузить страницу');
+      showErrorMessage('Не удалось загрузить данные, попробуйте перезагрузить страницу');
     });
 };
 
@@ -23,14 +23,14 @@ const sendData = (body) => {
   )
     .then((response) => {
       if (response.ok) {
-        showSuccessMessagePopup();
+        showSuccessMessage();
         resetForm();
       } else {
         throw new Error();
       }
     })
     .catch(() => {
-      showErrorMessagePopup('Не удалось отправить объявление');
+      showErrorMessage('Не удалось отправить объявление');
     }).finally(() => {
       unblockSubmitButton();
     });

@@ -109,4 +109,4 @@ const createPost = () => {
   };
 };
 const createPosts =() => Array.from({length: SIMILAR_POSTS_COUNT}, createPost);
-export {createPosts};
+export {createPosts, TYPES};

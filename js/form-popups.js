@@ -1,22 +1,22 @@
-const SHOW_SUCCESS_MESSAGE_TIME = 1500;
+const SUCCESS_MESSAGE_TIME = 1500;
 
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+const errorMessageCloseButton = document.querySelector('.error__button');
+const errorMessageText = document.querySelector('.error__message');
 
-const showSuccessMessagePopup = () => {
+const showSuccessMessage = () => {
   const message = successMessageTemplate.cloneNode(true);
   document.body.appendChild(message);
 
   setTimeout(() => {
     message.remove();
-  }, SHOW_SUCCESS_MESSAGE_TIME);
+  }, SUCCESS_MESSAGE_TIME);
 };
 
-const showErrorMessagePopup = (errorMessage) => {
+const showErrorMessage = (errorMessage) => {
   const message = errorMessageTemplate.cloneNode(true);
   document.body.appendChild(message);
-  const errorMessageCloseButton = document.querySelector('.error__button');
-  const errorMessageText = document.querySelector('.error__message');
   errorMessageText.textContent = errorMessage;
 
   errorMessageCloseButton.addEventListener('click', () => {
@@ -41,4 +41,4 @@ const showErrorMessagePopup = (errorMessage) => {
   document.addEventListener('click', eventOnClick);
 };
 
-export {showSuccessMessagePopup, showErrorMessagePopup};
+export {showSuccessMessage, showErrorMessage};
