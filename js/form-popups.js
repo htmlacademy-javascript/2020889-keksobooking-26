@@ -1,4 +1,5 @@
 const SUCCESS_MESSAGE_TIME = 1500;
+const escapeButton = 27;
 
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -24,7 +25,7 @@ const showErrorMessage = (errorMessage) => {
   });
 
   const eventOnEsc = (evt) => {
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === escapeButton) {
       message.remove();
       document.removeEventListener('keydown', eventOnEsc);
     }

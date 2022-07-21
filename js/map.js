@@ -1,27 +1,30 @@
 import {setActiveStatus} from './dealing-with-form.js';
-import {createProposition} from './generating-similar-elements.js';
+import {createPost} from './generating-similar-elements.js';
 
-const addressField = document.querySelector('#address');
 const LAT_TOKYO = 35.68999;
 const LNG_TOKYO = 139.69201;
-const mapScope = 12;
-const mapPic = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const mapLink = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const mainPinPic = './img/main-pin.svg';
+const MAP_SCOPE = 12;
+const MAP_PIC = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const MAP_LINK = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const MAIN_PIN_LINK = './img/main-pin.svg';
+const SIMPLE_PIN_PIC = './img/pin.svg';
+const NUMBER_OF_POSTS = 10;
+
 const mainPinSize = [52, 52];
 const mainPinAnchor = [26, 52];
-const simplePinPic = './img/pin.svg';
 const simplePinSize = [40, 40];
 const simplePinAnchor = [20, 40];
 const LAT_LNG_TOKYO = {
   lat: LAT_TOKYO,
   lng: LNG_TOKYO
 };
+
+const addressField = document.querySelector('#address');
 const map = L.map('map-canvas');
 
 //Создаем основной маркер
 const mainPinIcon = L.icon({
-  iconUrl: mainPinPic,
+  iconUrl: MAIN_PIN_LINK,
   iconSize: mainPinSize,
   iconAnchor: mainPinAnchor,
 });
@@ -41,13 +44,13 @@ map.on('load', () => {
 })
   .setView(
     LAT_LNG_TOKYO,
-    mapScope
+    MAP_SCOPE
   );
 
 L.tileLayer(
-  mapPic,
+  MAP_PIC,
   {
-    attribution: mapLink,
+    attribution: MAP_LINK,
   },
 ).addTo(map);
 mainPinMarker.on('moveend', (evt) => {
@@ -59,20 +62,16 @@ mainPinMarker.addTo(map);
 // Определяем фокус карты
 const resetMap = () => {
   addressField.value = `${LAT_TOKYO}, ${LNG_TOKYO}`;
-  mainPinMarker.setLatLng({
-    lat: LAT_TOKYO,
-    lng: LNG_TOKYO
-  });
 
   map.setView({
     lat: LAT_TOKYO,
     lng: LNG_TOKYO
-  }, mapScope);
+  }, MAP_SCOPE);
 };
 
 //Создаем второстепенные маркеры
 const simplePinIcon = L.icon({
-  iconUrl: simplePinPic,
+  iconUrl: SIMPLE_PIN_PIC,
   iconSize: simplePinSize,
   iconAnchor: simplePinAnchor,
 });
@@ -89,11 +88,11 @@ const renderPin = (post) => {
       icon: simplePinIcon,
     },
   );
-  pinMarker.addTo(markerGroup).bindPopup(createProposition(post));
+  pinMarker.addTo(markerGroup).bindPopup(createPost(post));
 };
 
 const renderPins = (array) => {
-  array.slice(0, 10).forEach((post) => {
+  array.slice(0, NUMBER_OF_POSTS).forEach((post) => {
     renderPin(post);
   });
 };

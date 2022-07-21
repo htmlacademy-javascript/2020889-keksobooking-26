@@ -1,8 +1,10 @@
 import {showSuccessMessage, showErrorMessage} from './form-popups.js';
 import {resetForm, unblockSubmitButton, blockSubmitButton} from './user-form.js';
 
+const API_URL = 'https://26.javascript.pages.academy/keksobooking';
+
 const getData = (onSuccess) => {
-  fetch('https://26.javascript.pages.academy/keksobooking/data')
+  fetch(`${API_URL}/data`)
     .then((response) => response.json())
     .then((objects) => {
       onSuccess(objects);
@@ -15,7 +17,7 @@ const getData = (onSuccess) => {
 const sendData = (body) => {
   blockSubmitButton();
   fetch(
-    'https://26.javascript.pages.academy/keksobooking',
+    API_URL,
     {
       method: 'POST',
       body,
@@ -31,9 +33,7 @@ const sendData = (body) => {
     })
     .catch(() => {
       showErrorMessage('Не удалось отправить объявление');
-    }).finally(() => {
-      unblockSubmitButton();
-    });
+    }).finally(unblockSubmitButton);
 };
 
 export {getData, sendData};
