@@ -1,6 +1,8 @@
-import './util.js';
+import {renderPins} from './map.js';
+import {getData} from './api.js';
+import {allowSubmitForm} from './user-form.js';
+import './data.js';
 import './generating-similar-elements.js';
-import './dealing-with-form.js';
-import './user-form.js';
-import './map.js';
 
+allowSubmitForm();
+getData(renderPins);
