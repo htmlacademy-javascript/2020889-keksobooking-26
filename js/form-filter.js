@@ -2,8 +2,8 @@ import {getData} from './api.js';
 import {clearPins, renderPins} from './map.js';
 import {debounce} from './util.js';
 
-const DEBOUNCE_DELAY = 100;
-const MAX_OBJECTS_VALUE = 10;
+const DEBOUNCE_DELAY = 500;
+const MAX_NUMBER_OF_PINS = 10;
 const SELECT_DEFAULT_VALUE = 'any';
 
 const mapFilters = document.querySelector('.map__filters');
@@ -56,7 +56,7 @@ const getFilteredPosts = (array) => {
       filteredPosts.push(array[i]);
     }
 
-    if(filteredPosts.length >= MAX_OBJECTS_VALUE) {
+    if(filteredPosts.length >= MAX_NUMBER_OF_PINS) {
       break;
     }
   }
