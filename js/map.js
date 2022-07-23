@@ -92,9 +92,13 @@ const renderPin = (post) => {
 };
 
 const renderPins = (array) => {
-  array.slice(0, NUMBER_OF_POSTS).forEach((post) => {
+  array.forEach((post) => {
     renderPin(post);
   });
 };
 
-export {renderPins, resetMap};
+const clearPins = () => {
+  markerGroup.clearLayers();
+};
+
+export {renderPins, resetMap, clearPins};

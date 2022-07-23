@@ -1,4 +1,5 @@
 import {sendData} from './api.js';
+import {resetMapFilters, startFilter} from './form-filter.js';
 import {resetMap} from './map.js';
 
 const MIN_TITLE_LENGTH = 30;
@@ -183,6 +184,8 @@ const resetForm = () => {
   orderForm.reset();
   pristine.reset();
   resetMap();
+  resetMapFilters();
+  startFilter();
 };
 
 resetFormButton.addEventListener('click', (evt) => {
