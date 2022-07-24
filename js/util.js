@@ -14,4 +14,13 @@ function getRandomPositiveFloat (a, b, digits) {
   return +result.toFixed(digits);
 }
 
-export {getRandomPositiveInteger, getRandomPositiveFloat};
+//Функция debounce для устранения дребезга:
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {getRandomPositiveInteger, getRandomPositiveFloat, debounce};

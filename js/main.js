@@ -1,8 +1,9 @@
 import {renderPins} from './map.js';
 import {getData} from './api.js';
 import {allowSubmitForm} from './user-form.js';
-import './data.js';
-import './generating-similar-elements.js';
+import {startFilter, updateFilterHandler} from './form-filter.js';
 
 allowSubmitForm();
+startFilter();
+updateFilterHandler();
 getData(renderPins);
