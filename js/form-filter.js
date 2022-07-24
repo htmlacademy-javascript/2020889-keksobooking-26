@@ -12,7 +12,6 @@ const priceFilter = mapFilters.querySelector('#housing-price');
 const roomsFilter = mapFilters.querySelector('#housing-rooms');
 const guestsFilter = mapFilters.querySelector('#housing-guests');
 const featuresFilter = mapFilters.querySelector('#housing-features');
-const checkedFilters = featuresFilter.querySelectorAll('input:checked');
 
 const PRICE_RANK = {
   low: {
@@ -41,7 +40,7 @@ const getFilteredPosts = (array) => {
 
   const filterFeatures = (post) => {
     const filtersFeatures = [];
-
+    const checkedFilters = featuresFilter.querySelectorAll('input:checked');
     checkedFilters.forEach((el) => filtersFeatures.push(el.value));
     if (post.offer.features){
       return filtersFeatures.every((feature) => post.offer.features.includes(feature));
