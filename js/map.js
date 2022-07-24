@@ -91,7 +91,7 @@ const renderPin = (post) => {
 };
 
 const renderPins = (array) => {
-  array.forEach((post) => {
+  array.slice(0, 10).forEach((post) => {
     renderPin(post);
   });
 };
