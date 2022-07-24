@@ -4,6 +4,7 @@ import {createPost} from './generating-similar-elements.js';
 const LAT_TOKYO = 35.68999;
 const LNG_TOKYO = 139.69201;
 const MAP_SCOPE = 12;
+const MAX_NUMBER_OF_PINS = 10;
 const MAP_PIC = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const MAP_LINK = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const MAIN_PIN_LINK = './img/main-pin.svg';
@@ -91,7 +92,7 @@ const renderPin = (post) => {
 };
 
 const renderPins = (array) => {
-  array.forEach((post) => {
+  array.slice(0, MAX_NUMBER_OF_PINS).forEach((post) => {
     renderPin(post);
   });
 };
