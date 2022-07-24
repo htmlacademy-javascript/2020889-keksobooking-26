@@ -45,7 +45,7 @@ const maxCapacityErrorMessage = {
   '100': '<br>не для гостей',
 };
 
-const pricesOnType = {
+const pricesByType = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -95,9 +95,9 @@ function changeRoomNumber () {
 roomNumberField.addEventListener('change', changeRoomNumber);
 
 //3.3. Поле «Тип жилья» влияет на минимальное значение поля «Цена за ночь»:
-const validateAddtionalPrice = (value) => pricesOnType[typeField.value] <= value;
+const validateAddtionalPrice = (value) => pricesByType[typeField.value] <= value;
 
-const getAdditionalPriceError = () => `Минимальная цена ${pricesOnType[typeField.value]}`;
+const getAdditionalPriceError = () => `Минимальная цена ${pricesByType[typeField.value]}`;
 
 pristine.addValidator(
   priceField,
@@ -119,10 +119,10 @@ syncronizeCheckInAndOut();
 
 //Пользователь может указать цену перемещением ползунка слайдера. Слайдер реализуется сторонней библиотекой noUiSlider.
 typeField.addEventListener('change', () => {
-  priceField.placeholder = pricesOnType[typeField.value];
+  priceField.placeholder = pricesByType[typeField.value];
   sliderElement.noUiSlider.updateOptions({
     range: {
-      min: pricesOnType[typeField.value],
+      min: pricesByType[typeField.value],
       max: MAX_PRICE
     },
     start: START_SLIDER,

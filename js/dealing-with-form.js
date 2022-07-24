@@ -32,4 +32,4 @@ const setActiveStatus = () => {
   });
 };
 
-export {setInactiveStatus, setActiveStatus};
+export {setActiveStatus};
