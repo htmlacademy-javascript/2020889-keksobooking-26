@@ -12,7 +12,6 @@ const priceFilter = mapFilters.querySelector('#housing-price');
 const roomsFilter = mapFilters.querySelector('#housing-rooms');
 const guestsFilter = mapFilters.querySelector('#housing-guests');
 const featuresFilter = mapFilters.querySelector('#housing-features');
-const checkedFilters = featuresFilter.querySelectorAll('input:checked');
 
 const PRICE_RANK = {
   low: {
@@ -33,30 +32,29 @@ const PRICE_RANK = {
   },
 };
 
+
+const filterType = (post) => post.offer.type === typeFilter.value || typeFilter.value === SELECT_DEFAULT_VALUE;
+const filterPrice = (post) => post.offer.price >= PRICE_RANK[priceFilter.value].from && post.offer.price <= PRICE_RANK[priceFilter.value].to;
+const filterRooms = (post) => post.offer.rooms.toString() === roomsFilter.value || roomsFilter.value === SELECT_DEFAULT_VALUE;
+const filterGuests = (post) => post.offer.guests.toString() === guestsFilter.value || guestsFilter.value === SELECT_DEFAULT_VALUE;
+
+const filterFeatures = (post) => {
+  const filtersFeatures = [];
+  const checkedFilters = featuresFilter.querySelectorAll('input:checked');
+  checkedFilters.forEach((el) => filtersFeatures.push(el.value));
+  if (post.offer.features){
+    return filtersFeatures.every((feature) => post.offer.features.includes(feature));
+  }
+  return false;
+};
+
 const getFilteredPosts = (array) => {
-  const filterType = (post) => typeFilter.value === post.offer.type || typeFilter.value === SELECT_DEFAULT_VALUE;
-  const filterPrice = (post) => (post.offer.price >= PRICE_RANK[priceFilter.value].from && post.offer.price <= PRICE_RANK[priceFilter.value].to);
-  const filterRooms = (post) => post.offer.rooms.toString() === roomsFilter.value || roomsFilter.value === SELECT_DEFAULT_VALUE;
-  const filterGuests = (post) => post.offer.guests.toString() === guestsFilter.value || guestsFilter.value === SELECT_DEFAULT_VALUE;
-
-  const filterFeatures = (post) => {
-    const filtersFeatures = [];
-
-    checkedFilters.forEach((el) => filtersFeatures.push(el.value));
-    if (post.offer.features){
-      return filtersFeatures.every((feature) => post.offer.features.includes(feature));
-    }
-    return false;
-  };
-
   const filteredPosts = [];
 
   for (let i = 0; i < array.length; i++) {
-    if(filterType(array[i]) && filterPrice(array[i]) && filterRooms(array[i]) && filterGuests(array[i]) && filterFeatures(array[i])) {
+    if (filterType(array[i]) && filterPrice(array[i]) && filterRooms(array[i]) && filterGuests(array[i]) && filterFeatures(array[i])) {
       filteredPosts.push(array[i]);
-    }
-
-    if(filteredPosts.length >= MAX_NUMBER_OF_PINS) {
+    } else if (filteredPosts.length >= MAX_NUMBER_OF_PINS) {
       break;
     }
   }
