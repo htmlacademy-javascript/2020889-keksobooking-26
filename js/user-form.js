@@ -56,9 +56,10 @@ const pricesByType = {
 //3.1. Заголовок объявления:
 const validateTitleLength = (value) => value.length >= MIN_TITLE_LENGTH && value.length <= MAX_TITLE_LENGTH;
 
-titleField.oninput = function () {
+titleField.addEventListener('oninput', () => {
   adFormLabel.textContent = `Заголовок объявления: использовано ${titleField.value.length}/100 символов`;
-};
+});
+
 
 pristine.addValidator(
   titleField,
@@ -88,9 +89,9 @@ pristine.addValidator(
 );
 
 //При выборе комнаты, автоматом проставляется число людей
-function changeRoomNumber () {
+const changeRoomNumber = () => {
   pristine.validate(capacityField);
-}
+};
 
 roomNumberField.addEventListener('change', changeRoomNumber);
 
