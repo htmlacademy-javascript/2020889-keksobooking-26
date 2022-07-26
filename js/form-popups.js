@@ -24,22 +24,21 @@ const showErrorMessage = (errorMessage) => {
     message.remove();
   });
 
-  const eventOnEsc = (evt) => {
+  const onPopupEscKeydown = (evt) => {
     if (evt.keyCode === escapeButton) {
+      document.removeEventListener('keydown', onPopupEscKeydown);
       message.remove();
-      document.removeEventListener('keydown', eventOnEsc);
     }
   };
 
-  document.addEventListener('keydown', eventOnEsc);
+  document.addEventListener('keydown', onPopupEscKeydown);
 
-
-  const eventOnClick = () => {
-    document.removeEventListener('click', eventOnClick);
+  const onPopupClick = () => {
+    document.removeEventListener('click', onPopupClick);
     message.remove();
   };
 
-  document.addEventListener('click', eventOnClick);
+  document.addEventListener('click', onPopupClick);
 };
 
 export {showSuccessMessage, showErrorMessage};

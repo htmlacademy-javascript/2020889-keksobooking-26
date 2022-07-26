@@ -48,12 +48,12 @@ const filterFeatures = (post) => {
   return false;
 };
 
-const getFilteredPosts = (array) => {
+const getFilteredPosts = (posts) => {
   const filteredPosts = [];
 
-  for (let i = 0; i < array.length; i++) {
-    if (filterType(array[i]) && filterPrice(array[i]) && filterRooms(array[i]) && filterGuests(array[i]) && filterFeatures(array[i])) {
-      filteredPosts.push(array[i]);
+  for (let i = 0; i < posts.length; i++) {
+    if (filterType(posts[i]) && filterPrice(posts[i]) && filterRooms(posts[i]) && filterGuests(posts[i]) && filterFeatures(posts[i])) {
+      filteredPosts.push(posts[i]);
     } else if (filteredPosts.length >= MAX_NUMBER_OF_PINS) {
       break;
     }
